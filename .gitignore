@@ -1,0 +1,24 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Raw source data stays outside the repo or under ignored folders.
+data/raw/
+data/processed/
+models/*
+!models/README.md
+
+# Never commit source media files.
+*.mp4
+*.mov
+*.avi
+*.jpg
+*.jpeg
+*.png
+!reports/randy_grid_examples/*.png
+
