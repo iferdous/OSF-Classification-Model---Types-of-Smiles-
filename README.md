@@ -1,8 +1,8 @@
-# OSF Smile-Type Classification Model
+# Smile-Type Classification Model
 
-This repository is a separate modeling workspace for classifying smile and
-expression categories that may later support the Niedenthal video-conferencing
-application.
+This repository is a separate modeling workspace for exploring automatic
+classification of smile and expression types for the Niedenthal video
+conferencing project.
 
 ## Goal
 
@@ -15,54 +15,33 @@ Build and validate a conservative classifier for:
 - `dominance`
 - `unknown / uncertain`
 
-The immediate Phase 1 goal is not model training. Phase 1 audits the available
-datasets, creates clean manifests, and generates visual grids that can be shown
-to the research group.
+The model should return confidence scores and be allowed to say `uncertain`
+instead of forcing a smile subtype when the evidence is weak.
 
 ## Data Sources
 
-Raw data is expected locally at:
+- **OSF Smile Types / Martin et al. 2021**: video stimuli for reward,
+  affiliative, and dominance smiles, plus anger, disgust, and sadness examples.
+- **FEI Face Database**: neutral and generic smiling face images used for basic
+  neutral/smile support, not smile-subtype labels.
 
-```text
-/Volumes/SSK/DataSet of Smiles/
-```
+Raw dataset files are kept outside this repo and are not committed to GitHub.
 
-Sources:
+## Current Phase
 
-- OSF Smile Types / Martin et al. 2021: reward, affiliation, and dominance smile videos.
-- FEI Face Database: neutral and generic smiling face images.
+Phase 1 focuses on dataset auditing, label mapping, and visual summaries. The
+repo currently includes:
 
-Raw `.mp4` and `.jpg` files are intentionally excluded from Git.
+- dataset manifests for OSF videos and FEI images
+- grid-style visual summaries for review
+- a short dataset summary report
+- validation tests for the dataset assumptions
 
-## Phase 1 Commands
+Model training will begin after the dataset structure and labels are reviewed.
 
-Install dependencies:
+## Intended App Contract
 
-```bash
-python3 -m pip install -r requirements.txt
-```
-
-Generate manifests:
-
-```bash
-PYTHONPATH=src python3 -m smile_model.dataset_index
-```
-
-Generate visual grids:
-
-```bash
-PYTHONPATH=src python3 -m smile_model.make_grids
-```
-
-Run tests:
-
-```bash
-PYTHONPATH=src pytest
-```
-
-## App Integration Target
-
-Future model output should match the video app's expression contract:
+Future model output should match the app’s expression fields:
 
 ```text
 label
@@ -73,7 +52,3 @@ classifierMode
 classifierVersion
 uncertain
 ```
-
-The classifier should be allowed to return `unknown` or `uncertain` when the
-model is not confident enough, especially for affiliative vs dominance smiles.
-
