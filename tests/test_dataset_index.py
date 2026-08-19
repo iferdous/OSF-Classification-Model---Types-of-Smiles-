@@ -1,11 +1,13 @@
 from pathlib import Path
 
 from smile_model.dataset_index import index_fei_images, index_osf_videos
+from smile_model.label_contract import build_label_contract
 from smile_model.schemas import (
     FEI_ROOT,
     OSF_EXPECTED_ACTORS,
     OSF_EXPECTED_LABELS,
     OSF_VIDEO_DIR,
+    SMILE_SUBTYPE_SOURCE_LABELS,
     SMILE_SUBTYPE_TARGET_LABELS,
 )
 
@@ -50,3 +52,43 @@ def test_grids_exist_after_generation() -> None:
         assert path.exists()
         assert path.stat().st_size > 0
 
+
+def test_label_contract_covers_every_indexed_item_once() -> None:
+    osf = index_osf_videos(OSF_VIDEO_DIR)
+    fei = index_fei_images(FEI_ROOT)
+    contract = build_label_contract(OSF_VIDEO_DIR, FEI_ROOT)
+    indexed_paths = {record.relative_path for record in osf} | {record.relative_path for record in fei}
+    contract_paths = {record.relative_path for record in contract}
+    assert len(contract) == 3290
+    assert contract_paths == indexed_paths
+
+
+def test_label_contract_smile_subtypes_are_osf_only() -> None:
+    contract = build_label_contract(OSF_VIDEO_DIR, FEI_ROOT)
+    subtype_rows = [record for record in contract if record.is_smile_subtype]
+    assert len(subtype_rows) == 45
+    assert {record.source for record in subtype_rows} == {"osf_smile_types"}
+    assert {record.source_label for record in subtype_rows} == SMILE_SUBTYPE_SOURCE_LABELS
+    assert {record.contract_label for record in subtype_rows} == SMILE_SUBTYPE_TARGET_LABELS
+
+
+def test_label_contract_fei_training_labels_are_basic_only() -> None:
+    contract = build_label_contract(OSF_VIDEO_DIR, FEI_ROOT)
+    fei_rows = [record for record in contract if record.source == "fei_face_database"]
+    fei_training_rows = [record for record in fei_rows if record.include_in_phase2_training]
+    assert len(fei_rows) == 3200
+    assert len(fei_training_rows) == 400
+    assert {record.contract_label for record in fei_training_rows} == {"neutral", "generic_smile"}
+    assert all(not record.is_smile_subtype for record in fei_rows)
+
+
+def test_label_contract_negative_rows_are_not_subtypes() -> None:
+    contract = build_label_contract(OSF_VIDEO_DIR, FEI_ROOT)
+    negative_rows = [
+        record
+        for record in contract
+        if record.contract_label in {"frown_candidate", "negative_other"}
+    ]
+    assert len(negative_rows) == 45
+    assert all(record.training_role == "negative_oob" for record in negative_rows)
+    assert all(not record.is_smile_subtype for record in negative_rows)

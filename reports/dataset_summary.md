@@ -82,6 +82,7 @@ Manifests:
 
 - `data/manifests/osf_videos.csv`
 - `data/manifests/fei_images.csv`
+- `data/manifests/label_contract.csv`
 
 Visual grids:
 
@@ -89,3 +90,6 @@ Visual grids:
 - `reports/randy_grid_examples/osf_full_expression_grid.png`
 - `reports/randy_grid_examples/fei_neutral_smile_grid.png`
 
+Label contract:
+
+- `reports/label_contract.md`

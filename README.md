@@ -29,15 +29,19 @@ Raw dataset files are kept outside this repo and are not committed to GitHub.
 
 ## Current Phase
 
-Phase 1 focuses on dataset auditing, label mapping, and visual summaries. The
-repo currently includes:
+The repository currently includes the Phase 1 dataset audit and the Phase 2
+label contract. Together, these define what each local video/image is allowed
+to mean before any model training starts.
+
+Current artifacts:
 
 - dataset manifests for OSF videos and FEI images
+- a unified label contract for every indexed video and image
 - grid-style visual summaries for review
 - a short dataset summary report
 - validation tests for the dataset assumptions
 
-Model training will begin after the dataset structure and labels are reviewed.
+Model training will begin after the dataset structure and label contract are reviewed.
 
 ## Intended App Contract
 
