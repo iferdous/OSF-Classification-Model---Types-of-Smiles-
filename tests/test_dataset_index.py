@@ -1,6 +1,8 @@
+import csv
 from pathlib import Path
 
 from smile_model.dataset_index import index_fei_images, index_osf_videos
+from smile_model.feature_extraction import build_features
 from smile_model.label_contract import build_label_contract
 from smile_model.schemas import (
     FEI_ROOT,
@@ -92,3 +94,35 @@ def test_label_contract_negative_rows_are_not_subtypes() -> None:
     assert len(negative_rows) == 45
     assert all(record.training_role == "negative_oob" for record in negative_rows)
     assert all(not record.is_smile_subtype for record in negative_rows)
+
+
+def test_phase3_feature_builder_keeps_labels_attached() -> None:
+    frame_rows, media_rows = build_features(video_samples=3)
+    assert len(media_rows) == 490
+    assert len(frame_rows) == 670
+    assert {row.contract_label for row in media_rows} == {
+        "affiliative",
+        "dominance",
+        "frown_candidate",
+        "generic_smile",
+        "negative_other",
+        "neutral",
+        "reward",
+    }
+    assert "audit_only" not in {row.contract_label for row in media_rows}
+    assert all(row.extractor_version == "phase3-opencv-v1" for row in frame_rows)
+    assert all(row.frames_sampled > 0 for row in media_rows)
+
+
+def test_phase3_feature_files_exist_after_generation() -> None:
+    expected_counts = {
+        Path("data/features/phase3_frame_features.csv"): 1480,
+        Path("data/features/phase3_media_features.csv"): 490,
+    }
+    for path, expected_rows in expected_counts.items():
+        assert path.exists()
+        assert path.stat().st_size > 0
+        with path.open(newline="", encoding="utf-8") as f:
+            rows = list(csv.DictReader(f))
+        assert len(rows) == expected_rows
+        assert "audit_only" not in {row["contract_label"] for row in rows}

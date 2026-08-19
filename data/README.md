@@ -26,3 +26,13 @@ data/manifests/label_contract.csv
 
 That file is the strict source of truth for how every indexed video/image may be
 used during model development.
+
+Phase 3 adds:
+
+```text
+data/features/phase3_frame_features.csv
+data/features/phase3_media_features.csv
+```
+
+Those files are generated only from label-contract rows marked for training use
+by default. FEI original images remain excluded as `audit_only`.

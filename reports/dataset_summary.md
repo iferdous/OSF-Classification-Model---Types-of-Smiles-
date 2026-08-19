@@ -93,3 +93,9 @@ Visual grids:
 Label contract:
 
 - `reports/label_contract.md`
+
+Feature extraction:
+
+- `reports/feature_extraction.md`
+- `data/features/phase3_frame_features.csv`
+- `data/features/phase3_media_features.csv`
