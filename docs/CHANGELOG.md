@@ -21,6 +21,19 @@
 
 * **Date:** 19-08-2026
 * **Author:** Ismam Ferdous
+* **Changes Made:** Add Phase 4 baseline models
+
+* **Previous behavior:**
+The repo could generate reviewed feature tables, but it did not yet train or evaluate any baseline classifiers from those features.
+* **New behavior:**
+The repo now trains cross-validated baseline models for FEI neutral-vs-smile classification and OSF reward-vs-affiliative-vs-dominance classification. It writes prediction CSVs, metrics, app-style confidence fields, and uncertainty flags.
+* **Why this matters:**
+This gives the team a measurable starting point before trying stronger model approaches. It also keeps the evaluation honest by separating people across train/test folds and documenting that the subtype model is still a research baseline, not a production-ready detector.
+
+---
+
+* **Date:** 19-08-2026
+* **Author:** Ismam Ferdous
 * **Changes Made:** Add Phase 3 feature extraction
 
 * **Previous behavior:**

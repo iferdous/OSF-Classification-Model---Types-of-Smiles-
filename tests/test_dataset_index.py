@@ -1,6 +1,8 @@
 import csv
+import json
 from pathlib import Path
 
+from smile_model.baseline_models import run_baselines
 from smile_model.dataset_index import index_fei_images, index_osf_videos
 from smile_model.feature_extraction import build_features
 from smile_model.label_contract import build_label_contract
@@ -126,3 +128,35 @@ def test_phase3_feature_files_exist_after_generation() -> None:
             rows = list(csv.DictReader(f))
         assert len(rows) == expected_rows
         assert "audit_only" not in {row["contract_label"] for row in rows}
+
+
+def test_phase4_baselines_generate_person_separated_outputs(tmp_path: Path) -> None:
+    out_dir = tmp_path / "outputs"
+    model_dir = tmp_path / "models"
+    metrics = run_baselines(out_dir=out_dir, model_dir=model_dir)
+    assert metrics["model_version"] == "phase4-logreg-v1"
+    assert metrics["basic_expression"]["rows"] == 400
+    assert metrics["smile_subtype"]["rows"] == 45
+    assert set(metrics["basic_expression"]["class_counts"]) == {"neutral", "smile"}
+    assert set(metrics["smile_subtype"]["class_counts"]) == {"affiliative", "dominance", "reward"}
+
+    basic_path = out_dir / "phase4_basic_expression_predictions.csv"
+    subtype_path = out_dir / "phase4_smile_subtype_predictions.csv"
+    metrics_path = out_dir / "phase4_metrics.json"
+    for path in [basic_path, subtype_path, metrics_path]:
+        assert path.exists()
+        assert path.stat().st_size > 0
+
+    with basic_path.open(newline="", encoding="utf-8") as f:
+        basic_rows = list(csv.DictReader(f))
+    with subtype_path.open(newline="", encoding="utf-8") as f:
+        subtype_rows = list(csv.DictReader(f))
+    assert len(basic_rows) == 400
+    assert len(subtype_rows) == 45
+    assert {row["classifier_mode"] for row in basic_rows} == {"basic"}
+    assert {row["classifier_mode"] for row in subtype_rows} == {"model-subtype"}
+    assert all(row["classifier_version"] == "phase4-logreg-v1" for row in basic_rows + subtype_rows)
+
+    with metrics_path.open(encoding="utf-8") as f:
+        written_metrics = json.load(f)
+    assert written_metrics["uncertain_threshold"] == 0.6

@@ -1,0 +1,153 @@
+{
+  "basic_expression": {
+    "accuracy": 0.81,
+    "class_counts": {
+      "neutral": 200,
+      "smile": 200
+    },
+    "confusion_matrix": [
+      [
+        155,
+        45
+      ],
+      [
+        31,
+        169
+      ]
+    ],
+    "coverage": 0.855,
+    "cross_validation": "GroupKFold(n_splits=5) by FEI subject",
+    "labels": [
+      "neutral",
+      "smile"
+    ],
+    "macro_f1": 0.8097669645315511,
+    "mean_confidence": 0.8156696603922508,
+    "rows": 400,
+    "uncertain_rows": 58,
+    "uncertain_threshold": 0.6
+  },
+  "feature_columns": {
+    "all_numeric_features": [
+      "frames_sampled",
+      "frames_ok",
+      "face_detection_rate",
+      "smile_detection_rate",
+      "image_width_median",
+      "image_height_median",
+      "brightness_mean",
+      "brightness_std",
+      "contrast_rms_mean",
+      "sharpness_laplacian_var_mean",
+      "edge_density_mean",
+      "lower_face_brightness_mean",
+      "lower_face_edge_density_mean",
+      "lower_face_symmetry_mad_mean",
+      "lower_face_dark_ratio_mean",
+      "face_area_pct_mean",
+      "face_area_pct_std",
+      "face_center_x_pct_mean",
+      "face_center_y_pct_mean",
+      "smile_area_pct_mean",
+      "smile_area_pct_std",
+      "smile_to_face_width_ratio_mean",
+      "smile_to_face_width_ratio_std",
+      "duration_ms"
+    ],
+    "basic_expression": [
+      "frames_sampled",
+      "frames_ok",
+      "face_detection_rate",
+      "smile_detection_rate",
+      "image_width_median",
+      "image_height_median",
+      "brightness_mean",
+      "brightness_std",
+      "contrast_rms_mean",
+      "sharpness_laplacian_var_mean",
+      "edge_density_mean",
+      "lower_face_brightness_mean",
+      "lower_face_edge_density_mean",
+      "lower_face_symmetry_mad_mean",
+      "lower_face_dark_ratio_mean",
+      "face_area_pct_mean",
+      "face_area_pct_std",
+      "face_center_x_pct_mean",
+      "face_center_y_pct_mean",
+      "smile_area_pct_mean",
+      "smile_area_pct_std",
+      "smile_to_face_width_ratio_mean",
+      "smile_to_face_width_ratio_std"
+    ],
+    "smile_subtype": [
+      "frames_sampled",
+      "frames_ok",
+      "face_detection_rate",
+      "smile_detection_rate",
+      "image_width_median",
+      "image_height_median",
+      "brightness_mean",
+      "brightness_std",
+      "contrast_rms_mean",
+      "sharpness_laplacian_var_mean",
+      "edge_density_mean",
+      "lower_face_brightness_mean",
+      "lower_face_edge_density_mean",
+      "lower_face_symmetry_mad_mean",
+      "lower_face_dark_ratio_mean",
+      "face_area_pct_mean",
+      "face_area_pct_std",
+      "face_center_x_pct_mean",
+      "face_center_y_pct_mean",
+      "smile_area_pct_mean",
+      "smile_area_pct_std",
+      "smile_to_face_width_ratio_mean",
+      "smile_to_face_width_ratio_std",
+      "duration_ms"
+    ]
+  },
+  "feature_source": "data/features/phase3_media_features.csv",
+  "model_version": "phase4-logreg-v1",
+  "not_modeled_yet": {
+    "frown": "Only OSF Sadness is available as frown_candidate; it is not treated as confirmed app frown ground truth.",
+    "unknown_uncertain": "Uncertain is thresholded from confidence; unknown remains an app-level fallback, not a trained class yet."
+  },
+  "smile_subtype": {
+    "accuracy": 0.4222222222222222,
+    "class_counts": {
+      "affiliative": 15,
+      "dominance": 15,
+      "reward": 15
+    },
+    "confusion_matrix": [
+      [
+        7,
+        3,
+        5
+      ],
+      [
+        1,
+        6,
+        8
+      ],
+      [
+        5,
+        4,
+        6
+      ]
+    ],
+    "coverage": 0.7777777777777778,
+    "cross_validation": "LeaveOneGroupOut by OSF actor",
+    "labels": [
+      "affiliative",
+      "dominance",
+      "reward"
+    ],
+    "macro_f1": 0.427170868347339,
+    "mean_confidence": 0.7709648353391096,
+    "rows": 45,
+    "uncertain_rows": 10,
+    "uncertain_threshold": 0.6
+  },
+  "uncertain_threshold": 0.6
+}

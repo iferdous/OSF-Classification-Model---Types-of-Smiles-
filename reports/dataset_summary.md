@@ -99,3 +99,10 @@ Feature extraction:
 - `reports/feature_extraction.md`
 - `data/features/phase3_frame_features.csv`
 - `data/features/phase3_media_features.csv`
+
+Baseline models:
+
+- `reports/baseline_models.md`
+- `data/model_outputs/phase4_basic_expression_predictions.csv`
+- `data/model_outputs/phase4_smile_subtype_predictions.csv`
+- `data/model_outputs/phase4_metrics.json`

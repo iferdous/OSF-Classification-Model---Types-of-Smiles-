@@ -30,26 +30,30 @@ Raw dataset files are kept outside this repo and are not committed to GitHub.
 ## Current Phase
 
 The repository currently includes the Phase 1 dataset audit, the Phase 2 label
-contract, and the Phase 3 feature extraction layer. Together, these define what
-each local video/image is allowed to mean and convert reviewed media into
-numeric feature files before any model training starts.
+contract, the Phase 3 feature extraction layer, and Phase 4 baseline models.
+Together, these define what each local video/image is allowed to mean, convert
+reviewed media into numeric feature files, and measure first-pass classifiers
+with person-separated validation.
 
 Current artifacts:
 
 - dataset manifests for OSF videos and FEI images
 - a unified label contract for every indexed video and image
 - frame/image feature tables and per-media feature summaries
+- baseline prediction CSVs and metrics
 - grid-style visual summaries for review
 - a short dataset summary report
 - validation tests for the dataset assumptions
 
-Model training will begin after the dataset structure and label contract are reviewed.
+The current models are baselines only. They are meant to guide the next research
+iteration, not to be treated as final app-ready classifiers.
 
 ## Documentation
 
 - `reports/dataset_summary.md`
 - `reports/label_contract.md`
 - `reports/feature_extraction.md`
+- `reports/baseline_models.md`
 - `docs/CHANGELOG.md`
 
 ## Intended App Contract

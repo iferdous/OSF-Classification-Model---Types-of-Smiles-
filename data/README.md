@@ -36,3 +36,14 @@ data/features/phase3_media_features.csv
 
 Those files are generated only from label-contract rows marked for training use
 by default. FEI original images remain excluded as `audit_only`.
+
+Phase 4 adds:
+
+```text
+data/model_outputs/phase4_basic_expression_predictions.csv
+data/model_outputs/phase4_smile_subtype_predictions.csv
+data/model_outputs/phase4_metrics.json
+```
+
+Those files store cross-validated baseline predictions and metrics. They do not
+replace the Phase 2 label contract.
